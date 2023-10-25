@@ -1,16 +1,12 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const morgan = require("morgan");
+const justifyRoute = require('./routes/justify'); // Assurez-vous que le chemin est correct
 
-const postRoutes = require('./routes/post');
+app.use(morgan("dev"));
+app.use("/", justifyRoute);
 
-
-app.get("/", postRoutes.getPosts)
-
-
-
-const port = 8080
+const port = 8080;
 app.listen(port, () => {
-    console.log(` A node js api listen to the port : ${port}`)
+    console.log(`A node js api is listening on port: ${port}`);
 });
-
-
