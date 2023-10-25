@@ -10,10 +10,12 @@
   "author": "Clément",
   "license": "ISC",
   "dependencies": {
+    "@braintree/sanitize-url": "^6.0.4",
     "dompurify": "^3.0.6",
     "express": "^4.18.2",
     "jsdom": "^22.1.0",
     "morgan": "^1.10.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "vitest": "^0.34.6"
   }
 }
