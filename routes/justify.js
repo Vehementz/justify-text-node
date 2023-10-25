@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+var toobusy = require('toobusy-js');
 const { justifyText } = require('../utils/justifText');
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
@@ -13,7 +14,27 @@ const DOMPurify = createDOMPurify(window);
 router.use(express.text({ type: 'text/plain', limit: '50kb' })); // for example, a limit of 10kb
 
 
-router.get('/api/justify', (req, res) => {
+router.get('/api/justify', (req, res, next) => {
+    if (toobusy()) {
+        res.send(503, "I'm busy right now, sorry, wait 1 minute.");
+    } else {
+        next();
+    }
+
+    // Set maximum lag to an aggressive value.
+    toobusy.maxLag(10);
+
+    // Set check interval to a faster value. This will catch more latency spikes
+    // but may cause the check to be too sensitive.
+    toobusy.interval(250);
+
+    // Get current maxLag or interval setting by calling without parameters.
+    var currentMaxLag = toobusy.maxLag(), interval = toobusy.interval();
+
+    toobusy.onLag(function (currentLag) {
+        console.log("Event loop lag detected! Latency: " + currentLag + "ms");
+    });
+
     let text = req.query.text;
     text = sanitizeUrl(text); // sanitize the text if it's a URL
     text = DOMPurify.sanitize(text); // Further sanitize with DOMPurify
@@ -32,6 +53,10 @@ router.get('/api/justify', (req, res) => {
 
     res.send(responseText);
 });
+
+
+
+
 
 router.post('/api/justify', (req, res) => {
     let text = req.body;
