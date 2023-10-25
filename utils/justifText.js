@@ -14,26 +14,35 @@ function justifyText(text, lineWidth = 80) {
 
     lines.push(currentLine);
 
-    // Justify the lines by adding spaces
-    for (let i = 0; i < lines.length - 1; i++) { // exclude the last line from justification
-        lines[i] = adjustLine(lines[i], lineWidth);
-    }
+    // Add extra spaces to each line
+    for (let i = 0; i < lines.length; i++) {
+        let spacesToAdd = lineWidth - lines[i].length;
+        const spacePositions = [];
 
-    return lines.join('\n');
-}
+        // Avoid adding spaces to the last line
+        if (i === lines.length - 1) {
+            break;
+        }
 
-function adjustLine(line, lineWidth) {
-    while (line.length < lineWidth) {
-        for (let i = 0; i < line.length - 1 && line.length < lineWidth; i++) {
-            if (line[i] === ' ' && line[i + 1] !== ' ') {
-                line = insertAt(line, i + 1, ' ');
-                while (i < line.length - 1 && line[i] !== ' ') {
-                    i++;
+        // Detect space positions
+        for (let j = 0; j < lines[i].length; j++) {
+            if (lines[i][j] === ' ') {
+                spacePositions.push(j);
+            }
+        }
+
+        // Distribute extra spaces
+        while (spacesToAdd > 0) {
+            for (let j = 0; j < spacePositions.length && spacesToAdd > 0; j++, spacesToAdd--) {
+                lines[i] = insertAt(lines[i], spacePositions[j], ' ');
+                for (let k = j + 1; k < spacePositions.length; k++) {
+                    spacePositions[k]++;
                 }
             }
         }
     }
-    return line;
+
+    return lines.join('\n');
 }
 
 function insertAt(original, index, string) {
@@ -43,3 +52,5 @@ function insertAt(original, index, string) {
 module.exports = {
     justifyText
 };
+
+
