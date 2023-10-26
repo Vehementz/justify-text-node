@@ -46,7 +46,7 @@ The API should be running and listening on port 8080.
 
 ### Requesting a Token
 
-# A curl request to generate a token
+# A curl request to generate a token 
 
 To make justified text requests, a token is needed. Obtain a token:
 
