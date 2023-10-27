@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const tokenController = require('../controllers/token');
 
-router.post('/', tokenController.generateToken);
+const { validateEmail, generateToken } = require('../controllers/token');
+
+router.post('/', validateEmail, generateToken);
+
 
 module.exports = router;
