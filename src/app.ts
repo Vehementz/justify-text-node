@@ -2,9 +2,10 @@ import express, { Router, Express } from 'express';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 // Assuming config has a default export, if not adjust the import
-import config from './config.json';
-import justifyRoute from './src/routes/justify';
-import tokenRoute from './src/routes/token';
+// import config from '../config.json';
+
+import justifyRoute from './routes/justify';
+import tokenRoute from './routes/token';
 
 const app: Express = express();
 
@@ -29,7 +30,7 @@ app.use('/api/justify', justifyRoute);
 app.use('/api/token', tokenRoute);
 
 // Start the server
-const port: number = config.PORT;
+const port: number = 8080;
 app.listen(port, () => {
-    console.log(`A node js api is listening on port: ${config.PORT}`);
+    console.log(`A node js api is listening on port: 8080`);
 });

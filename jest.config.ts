@@ -1,8 +1,9 @@
-import type {Config} from 'jest';
-import {defaults} from 'jest-config';
+import type { Config as JestConfig } from 'jest';
+import { defaults } from 'jest-config';
 
-const config: Config = {
+const jestConfig: JestConfig = {
   moduleFileExtensions: [...defaults.moduleFileExtensions, 'mts'],
+  // Add other Jest configuration options as needed.
 };
 
-export default config;
+export default jestConfig;

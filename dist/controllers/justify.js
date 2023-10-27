@@ -7,7 +7,7 @@ exports.getJustify = exports.postJustify = exports.authorizeUser = void 0;
 const toobusy_js_1 = __importDefault(require("toobusy-js"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dompurify_1 = __importDefault(require("dompurify"));
-const { justifyText } = require('../../utils/justifyText');
+const { justifyText } = require('../utils/justifyText');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const JWT_SECRET = "YOUR_SECRET_KEY";

@@ -2,11 +2,11 @@
   "name": "apinode",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon app.js",
-    "prod": "node app.js"
+    "dev": "nodemon /app.ts",
+    "prod": "node dist/app.js"
   },
   "author": "Clément",
   "license": "ISC",
@@ -24,7 +24,6 @@
     "jsdom": "^22.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "nodemon": "^3.0.1",
     "rate-limiter": "^0.2.0",
     "toobusy-js": "^0.5.1",
     "vitest": "^0.34.6"
@@ -35,6 +34,7 @@
     "@types/jsonwebtoken": "^9.0.4",
     "@types/toobusy-js": "^0.5.3",
     "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
     "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"

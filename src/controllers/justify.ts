@@ -1,7 +1,7 @@
 import toobusy from 'toobusy-js';
 import jwt, { JwtPayload, VerifyErrors } from 'jsonwebtoken'; 
 import createDOMPurify from 'dompurify';
-const { justifyText } = require('../../utils/justifyText');
+const { justifyText } = require('../utils/justifyText');
 import { Request, Response, NextFunction } from 'express';
 
 const jsdom = require("jsdom");
