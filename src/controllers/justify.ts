@@ -8,6 +8,7 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
 const JWT_SECRET: string = "YOUR_SECRET_KEY";
+
 const RATE_LIMIT: number = 80000;
 
 const window = (new JSDOM('')).window;

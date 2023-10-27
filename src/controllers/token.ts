@@ -25,3 +25,9 @@ export const generateToken = (req: Request, res: Response) => {
     const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '24h' });
     res.json({ token });
 };
+
+
+jest.mock('express-validator', () => ({
+    validationResult: jest.fn().mockReturnValue({ isEmpty: () => true }),
+    body: jest.fn().mockReturnValue(jest.fn())
+}));
