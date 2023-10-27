@@ -1,13 +1,14 @@
-const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator');
+import { Request, Response, NextFunction } from 'express';
+import { body, validationResult } from 'express-validator';
 
+
+import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = "YOUR_SECRET_KEY";  // Change this to a strong secret key
 
-
-exports.validateEmail = [
+export const validateEmail = [
     body('email').isEmail().withMessage('Email is required and should be valid.'),
-    (req, res, next) => {
+    (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -15,7 +16,8 @@ exports.validateEmail = [
         next();
     }
 ];
-exports.generateToken = (req, res) => {
+
+export const generateToken = (req: Request, res: Response) => {
     const email = req.body.email;
 
     if (!email) return res.status(400).json({ error: 'Email is required' });
@@ -23,7 +25,3 @@ exports.generateToken = (req, res) => {
     const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '24h' });
     res.json({ token });
 };
-
-// expect(res.json).toHaveBeenCalledWith({ error: 'Email is required' });
-
-
