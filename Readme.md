@@ -61,10 +61,30 @@ The API will respond with a token. Use this token for subsequent requests.
 Send a piece of text for justification:
 
 ```bash
-curl -X POST -H "Content-Type: text/plain" -H "Authorization: Bearer YOUR_TOKEN" --data "Your text to be justified goes here." http://localhost:8080/api/justify
+curl -X POST \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdXJfZW1haWxAZG9tYWluLmNvbSIsImlhdCI6MTY5ODQ5OTQ0OCwiZXhwIjoxNjk4NTg1ODQ4fQ.3q..." \
+--data '{"text":"Your text to be justified goes here."}' \
+http://localhost:8080/api/justify
 ```
-
 Replace `YOUR_TOKEN` with the token you received.
+
+
+**Exemple : generate a token** 
+```
+curl -X POST -H "Content-Type: application/json" --data '{"email": "your_email@domain.com"}' http://localhost:8080/api/token
+```
+Return => 
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdXJfZW1haWxAZG9tYWluLmNvbSIsImlhdCI6MTY5ODUwMDI0MywiZXhwIjoxNjk4NTg2NjQzfQ.pcXtWYb6T190tOngVAF-Lae4vkU230sQ0XnTWGm5UoI"
+
+**Exemple : Justify the text** 
+```
+curl -X POST \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdXJfZW1haWxAZG9tYWluLmNvbSIsImlhdCI6MTY5ODUwMDI0MywiZXhwIjoxNjk4NTg2NjQzfQ.pcXtWYb6T190tOngVAF-Lae4vkU230sQ0XnTWGm5UoI" \
+--data '{"text":"Your text to be justified goes here."}' \
+http://localhost:8080/api/justify
+```
 
 ### Rate Limits
 
