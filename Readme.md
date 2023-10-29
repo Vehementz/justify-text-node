@@ -1,3 +1,4 @@
+
 # Text Justification API
 
 The Text Justification API is a Node.js application that provides text justification services. Clients can send a piece of text to the API, which returns the text justified to fit within a specific width.
@@ -44,7 +45,47 @@ The API should be running and listening on port 8080.
 
 ## Usage
 
+
+
+
+# Local
+
 ### Requesting a Token
+
+# Insomnia 
+
+POST REQUEST at the address
+
+http://localhost:8080/api/token
+
+
+In the body use the JSON format and use something like below 
+
+```
+{
+  "email": "your_email@domain.com"
+}
+```
+A token is returned 
+
+After 
+
+Send a POST request at the address
+http://localhost:8080/api/justify
+
+In the body use something like below 
+```
+{
+  "text": "Your text to be justified goes here. Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here.Your text to be justified goes here."
+}
+
+```
+
+In the headers use :
+- Content-Type : application/json
+- Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdXJfZW1haWxAZG9tYWluLmNvbSIsImlhdCI6MTY5ODYwODkwNiwiZXhwIjoxNjk4Njk1MzA2fQ.pLSXVZntMMV5EPhpb6wKflKWB3JDfUJJwQG2qZUojvk 
+
+The text is returned justified
 
 # A curl request to generate a token 
 
