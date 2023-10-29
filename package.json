@@ -5,11 +5,11 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
+    "docker:dev": "docker build -t justify:dev -f Dockerfile.dev . && docker run -p 8080:8080 justify:dev",
+    "docker:prod": "docker build -t justify:prod . && docker run -p 8080:8080 justify:prod",
     "dev": "nodemon /app.ts",
     "prod": "node dist/app.js",
     "clear_jest": "jest --clearCache"
-
-    
   },
   "author": "Clément",
   "license": "ISC",
