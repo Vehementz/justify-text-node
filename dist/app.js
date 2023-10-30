@@ -11,6 +11,9 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const justify_1 = __importDefault(require("./routes/justify"));
 const token_1 = __importDefault(require("./routes/token"));
 const app = (0, express_1.default)();
+const bodyParser = require('body-parser');
+app.use(bodyParser.text({ type: 'text/plain' }));
+app.use(bodyParser.json());
 // Middlewares
 app.use((0, morgan_1.default)('dev'));
 // You can use express built-in body-parser for json and text 

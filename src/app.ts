@@ -8,7 +8,9 @@ import justifyRoute from './routes/justify';
 import tokenRoute from './routes/token';
 
 const app: Express = express();
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.text({ type: 'text/plain' }));
+app.use(bodyParser.json());
 // Middlewares
 app.use(morgan('dev'));
 

@@ -48,7 +48,9 @@ const authorizeUser = (req, res, next) => {
     const contentType = req.headers['content-type'];
     if (contentType === 'text/plain') {
         // Handle plain text input
+        console.log(typeof req.body, req.body);
         if (typeof req.body === 'string') {
+            console.log(typeof req.body, req.body);
             // Process and authorize plain text input
             req.email = 'foo@bar.com'; // You can set it to an empty string or handle it as needed
             console.log('Authorization successful for plain text input. Proceeding to the next handler.');
@@ -66,6 +68,7 @@ const authorizeUser = (req, res, next) => {
             req.email = decoded === null || decoded === void 0 ? void 0 : decoded.email;
             console.log('Authorization successful. Proceeding to the next handler.');
             if (!req.body || typeof req.body.text !== 'string') {
+                console.log(typeof req.body, req.body);
                 return res.status(400).send('Invalid input in verify.');
             }
             next();
