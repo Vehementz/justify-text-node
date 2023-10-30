@@ -44,16 +44,33 @@ const authorizeUser = (req, res, next) => {
     const token = bearerHeader.split(' ')[1];
     if (!token)
         return res.status(401).json({ error: 'Token is required' });
-    jsonwebtoken_1.default.verify(token, JWT_SECRET, (err, decoded) => {
-        if (err)
-            return res.status(401).json({ error: 'Invalid token' });
-        req.email = decoded === null || decoded === void 0 ? void 0 : decoded.email;
-        console.log('Authorization successful. Proceeding to the next handler.');
-        if (!req.body || typeof req.body.text !== 'string') {
-            return res.status(400).send('Invalid input.');
+    // Check the content type
+    const contentType = req.headers['content-type'];
+    if (contentType === 'text/plain') {
+        // Handle plain text input
+        if (typeof req.body === 'string') {
+            // Process and authorize plain text input
+            req.email = 'foo@bar.com'; // You can set it to an empty string or handle it as needed
+            console.log('Authorization successful for plain text input. Proceeding to the next handler.');
+            next();
         }
-        next();
-    });
+        else {
+            return res.status(400).send('Invalid input in verify.');
+        }
+    }
+    else {
+        // Handle other content types (e.g., JSON)
+        jsonwebtoken_1.default.verify(token, JWT_SECRET, (err, decoded) => {
+            if (err)
+                return res.status(401).json({ error: 'Invalid token' });
+            req.email = decoded === null || decoded === void 0 ? void 0 : decoded.email;
+            console.log('Authorization successful. Proceeding to the next handler.');
+            if (!req.body || typeof req.body.text !== 'string') {
+                return res.status(400).send('Invalid input in verify.');
+            }
+            next();
+        });
+    }
 };
 exports.authorizeUser = authorizeUser;
 const dailyWordCount = {};
@@ -64,14 +81,26 @@ const postJustify = (req, res) => {
         return; // Explicitly return after sending response
     }
     // Check if text is provided
-    if (!req.body.text || typeof req.body.text !== 'string') {
-        res.status(400).send('Text data is missing or invalid.');
+    let inputText;
+    if (req.headers['content-type'] === 'text/plain') {
+        inputText = req.body;
+    }
+    else if (req.headers['content-type'] === 'application/json' && typeof req.body.text === 'string') {
+        inputText = req.body.text;
+    }
+    else {
+        res.status(400).send('Invalid input to send plain text.');
+        return;
+    }
+    // Check if inputText is empty or only contains whitespace
+    if (!inputText.trim()) {
+        res.status(400).send('Invalid input from trim.');
         return;
     }
     // Calculate word count
-    const wordCount = req.body.text.split(' ').length;
+    const wordCount = inputText.split(' ').length;
     // Update daily word count
-    if (dailyWordCount[req.email]) { // Use non-null assertion because we know email exists here.
+    if (dailyWordCount[req.email]) {
         dailyWordCount[req.email] += wordCount;
     }
     else {
@@ -83,7 +112,7 @@ const postJustify = (req, res) => {
         return;
     }
     // Process and justify text
-    const responseText = `<p style="text-align: justify; width: 600px;">${processAndJustifyText(req.body.text)}</p>`;
+    const responseText = `<p style="text-align: justify; width: 600px;">${processAndJustifyText(inputText)}</p>`;
     // Send response
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -98,7 +127,8 @@ const getJustify = (req, res) => {
         return;
     }
     try {
-        const responseText = `<p style="text-align: justify;">${processAndJustifyText(req.query.text)}</p>`;
+        const inputText = req.headers['content-type'] === 'text/plain' ? req.body.text : req.query.text;
+        const responseText = `<p style="text-align: justify;">${processAndJustifyText(inputText)}</p>`;
         res.setHeader('Content-Type', 'text/plain');
         res.setHeader('X-Content-Type-Options', 'nosniff');
         res.setHeader('Content-Security-Policy', "default-src 'self'");
@@ -108,7 +138,7 @@ const getJustify = (req, res) => {
     catch (error) {
         if (error instanceof Error) {
             console.error("Error during text justification:", error.message);
-            res.status(400).json({ error: error.message });
+            res.status(400).send(error.message);
         }
         return;
     }

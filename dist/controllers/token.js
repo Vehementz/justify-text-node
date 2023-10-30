@@ -25,3 +25,10 @@ const generateToken = (req, res) => {
     res.json({ token });
 };
 exports.generateToken = generateToken;
+// Conditional mocking of express-validator for testing
+if (process.env.NODE_ENV === 'test') {
+    jest.mock('express-validator', () => ({
+        validationResult: jest.fn().mockReturnValue({ isEmpty: () => true }),
+        body: jest.fn().mockReturnValue(jest.fn())
+    }));
+}

@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
-
-
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = "YOUR_SECRET_KEY";  // Change this to a strong secret key
@@ -26,8 +24,10 @@ export const generateToken = (req: Request, res: Response) => {
     res.json({ token });
 };
 
-
-jest.mock('express-validator', () => ({
-    validationResult: jest.fn().mockReturnValue({ isEmpty: () => true }),
-    body: jest.fn().mockReturnValue(jest.fn())
-}));
+// Conditional mocking of express-validator for testing
+if (process.env.NODE_ENV === 'test') {
+    jest.mock('express-validator', () => ({
+        validationResult: jest.fn().mockReturnValue({ isEmpty: () => true }),
+        body: jest.fn().mockReturnValue(jest.fn())
+    }));
+}
