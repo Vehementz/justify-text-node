@@ -19,6 +19,7 @@ type DailyWordCount = Record<string, number>;
 
 
 const processAndJustifyText = (inputText: string): string => {
+    
     try {
         let text: string = DOMPurify.sanitize(inputText.toString());
         if (!text) {
