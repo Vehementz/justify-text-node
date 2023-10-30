@@ -41,55 +41,34 @@ const processAndJustifyText = (inputText: string): string => {
 interface ExtendedRequest extends Request {
     email?: string;
 }
-
-// export function getErrorMessage(error: unknown) {
-//     if (error instanceof Error) return error.message;
-//     return String(error)
-// }
-
-
 export const authorizeUser = (req: ExtendedRequest, res: Response, next: NextFunction) => {
     const bearerHeader: string | undefined = req.headers['authorization'] as string;
+
     if (!bearerHeader) return res.status(401).json({ error: 'Token is required' });
-
     const token: string = bearerHeader.split(' ')[1];
-
     if (!token) return res.status(401).json({ error: 'Token is required' });
 
-    // Check the content type
-    const contentType: string | undefined = req.headers['content-type'];
+    jwt.verify(token, JWT_SECRET, (err: VerifyErrors | null, decoded: any | undefined) => {
+        if (err) return res.status(401).json({ error: 'Invalid token' });
+        
+        req.email = decoded?.email;
+        console.log('Authorization successful. Proceeding to the next handler.');
+        
+        const contentType: string | undefined = req.headers['content-type'];
 
-    if (contentType === 'text/plain') {
-        // Handle plain text input
-        console.log(typeof req.body, req.body);
-
-        if (typeof req.body === 'string') {
-            console.log(typeof req.body, req.body);
-
-            // Process and authorize plain text input
-            req.email = 'foo@bar.com'; // You can set it to an empty string or handle it as needed
-            console.log('Authorization successful for plain text input. Proceeding to the next handler.');
-            next();
-        } else {
-            return res.status(400).send('Invalid input in verify.');
-        }
-    } else {
-        // Handle other content types (e.g., JSON)
-        jwt.verify(token, JWT_SECRET, (err: VerifyErrors | null, decoded: any | undefined) => {
-            if (err) return res.status(401).json({ error: 'Invalid token' });
-
-            req.email = decoded?.email;
-            console.log('Authorization successful. Proceeding to the next handler.');
-
-            if (!req.body || typeof req.body.text !== 'string') {
-                console.log(typeof req.body, req.body);
-
+        // After verifying the token, you can then check the content type
+        if (contentType === 'text/plain') {
+            if (typeof req.body !== 'string') {
                 return res.status(400).send('Invalid input in verify.');
             }
-            next();
-        });
-    }
+        } else if (!req.body || typeof req.body.text !== 'string') {
+            return res.status(400).send('Invalid input in verify.');
+        }
+
+        next();
+    });
 };
+
 
 
 const dailyWordCount: DailyWordCount = {};
