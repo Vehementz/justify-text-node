@@ -115,8 +115,8 @@ Replace `YOUR_TOKEN` with the token you received.
 ```
 curl -X POST -H "Content-Type: application/json" --data '{"email": "your_email@domain.com"}' http://localhost:8080/api/token
 ```
-Return => 
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdXJfZW1haWxAZG9tYWluLmNvbSIsImlhdCI6MTY5ODUwMDI0MywiZXhwIjoxNjk4NTg2NjQzfQ.pcXtWYb6T190tOngVAF-Lae4vkU230sQ0XnTWGm5UoI"
+Return  something like => 
+"eyJhbGciOiJIUzI1hrtregsthtrt.tghuqhjgrhiqrthiogqrhjkmFLEHZECEHgrniozejviHIHghaeijgrhjgrhquhrhjgqlzerhhkkfeqlhzefhlefhjghjehfjkqfhuhaqhpe"
 
 **Exemple : Justify the text** 
 ```
