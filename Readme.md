@@ -36,10 +36,21 @@ cd cd postApi
 npm install
 ```
 
-4. Start the server:
+4. Start the server for developpement:
 ```bash
-node app.js
+npm run dev
 ```
+OR with docker
+
+```bash
+npm run docker:dev
+```
+
+FOR Production 
+```bash
+npm run docker:prod
+```
+
 
 The API should be running and listening on port 8080.
 
