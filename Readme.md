@@ -63,7 +63,7 @@ In the body use the JSON format and use something like below
 
 ```
 {
-  "email": "your_email@domain.com"
+  "email": "foo@bar.com"
 }
 ```
 A token is returned 
@@ -82,8 +82,8 @@ In the body use something like below
 ```
 
 In the headers use :
-- Content-Type : application/json
-- Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdXJfZW1haWxAZG9tYWluLmNvbSIsImlhdCI6MTY5ODYwODkwNiwiZXhwIjoxNjk4Njk1MzA2fQ.pLSXVZntMMV5EPhpb6wKflKWB3JDfUJJwQG2qZUojvk 
+- Content-Type : text/plain
+- Authorization : Bearer YOUR_TOKEN 
 
 The text is returned justified
 
@@ -92,7 +92,7 @@ The text is returned justified
 To make justified text requests, a token is needed. Obtain a token:
 
 ```bash
-curl -X POST -H "Content-Type: application/json" --data '{"email": "your_email@domain.com"}' http://localhost:8080/api/token
+curl -X POST -H "Content-Type: application/json" --data '{"email": "foo@bar.com"}' http://localhost:8080/api/token
 ```
 
 The API will respond with a token. Use this token for subsequent requests.
@@ -103,9 +103,9 @@ Send a piece of text for justification:
 
 ```bash
 curl -X POST \
--H "Content-Type: application/json" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdXJfZW1haWxAZG9tYWluLmNvbSIsImlhdCI6MTY5ODQ5OTQ0OCwiZXhwIjoxNjk4NTg1ODQ4fQ.3q..." \
---data '{"text":"Your text to be justified goes here."}' \
+-H "Authorization: Bearer YOUR_COPIED_TOKEN" \
+-H "Content-Type: text/plain" \
+--data "Your text content here" \
 http://localhost:8080/api/justify
 ```
 Replace `YOUR_TOKEN` with the token you received.
